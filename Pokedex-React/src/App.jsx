@@ -1,53 +1,56 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
+import { Card } from './components/Card';
 import './App.css'
+import icon from './assets/icons8-search-50.png';
 
-const fetchPokemon = async () => {
-  const randomNumber = Math.floor(Math.random() * (1000)+1);
-  const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${randomNumber}/`);
-  return res.data;
-};
+
 
 function App() {
-  const [pokemon, setPokemon] = useState([]);
-  
-  const handleClickAddPokemon = async () => {
-    const randomPokemon = await fetchPokemon();
-    const updatedPokemon = [...pokemon, randomPokemon];
-    setPokemon(updatedPokemon);
-  };
+  const [texto, setTexto] = useState('');
+  const [pokemon, setPokemon] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log('Request')
+  const fetchPokemon = useCallback(async (tipoBusqueda, nombre) => {
+    if(tipoBusqueda === 'random'){
       const randomNumber = Math.floor(Math.random() * (1000)+1);
       const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${randomNumber}/`);
-      setPokemon([res.data]);
-    };
-    fetchData();
+      return res.data;
+    }else{
+      try{
+        if(nombre === null || nombre === undefined || nombre === ''){ 
+          alert('Tiene que escribir algo, volver a intentar');
+          return pokemon;
+        }
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${nombre}/`);
+        console.log(res.data)
+        return res.data
+      }catch{
+        alert('No existe este pokemon, volver a intentar');
+        return pokemon;
+      }
+    }
   }, []);
   
-  const renderedPokemon = pokemon.map(data => {
-    return (
-      <div className='card' key={data.name + data.id}>
-        <div className='header'>
-          <p>{data.name.charAt(0).toUpperCase() + data.name.slice(1)}</p>
-          <p>No. {data.id}</p>
-        </div>
-        <div className='img-container'>
-          <img src={data.sprites.front_default} />
-        </div>
-      </div>
-    );
-  });
+  const handleClickRandomPokemon = async () => {
+    const randomPokemon = await fetchPokemon('random', null);
+    setPokemon(randomPokemon);
+  };
+
+  const handleClickBusquedaPokemon = async () => {
+    const pokemon = await fetchPokemon('busqueda', texto.toLowerCase());
+    console.log(pokemon);
+    setPokemon(pokemon);
+  };
 
   return (
     <div className='page'>
       <div className='menu'>
-        <button onClick={handleClickAddPokemon}>Agregar</button>
+        <input className='busqueda' value={texto} onChange={(e) => setTexto(e.target.value)} placeholder='Busqueda'></input>
+        <button onClick={handleClickBusquedaPokemon} className='busqueda-btn'> <img src={icon}/> </button>
+        <button onClick={handleClickRandomPokemon}>Random</button>
       </div>
       <div className='main-container'>
-        {renderedPokemon}
+        {pokemon !== null ? <Card pokemon={pokemon}/> : null}
       </div>
     </div>
   )
