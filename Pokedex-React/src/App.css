@@ -1,0 +1,66 @@
+.page{
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.menu{
+  position: sticky;
+  top: 0;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);  
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button{
+  background-color: #ffcb05;
+  color: #2a75bb;
+  font-weight: bold;
+  width: 6rem;
+  height: 3rem;
+  border: 2px solid #2a75bb;
+}
+
+.main-container{
+  margin-top: -4.2rem;
+  min-height: 100vh;
+  padding: 15px;
+  padding-top: 7rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  background: rgb(42,117,187);
+  background: linear-gradient(54deg, rgba(42,117,187,1) 0%, rgba(255,203,5,1) 81%);
+}
+
+.card{
+  background-color: white;
+  width: 15rem;
+  border: 2px solid #c2c2c2;
+  border-radius: 5px;
+  height: 15rem;
+  margin: 5px;
+}
+
+.header{
+  display: flex;
+  border-bottom: 1px solid #c2c2c2;
+  justify-content: space-between;
+}
+
+.img-container{
+  width: 15rem;
+  height: 90%;
+}
+
+img{
+  width: 100%;
+  height: 100%;
+}
