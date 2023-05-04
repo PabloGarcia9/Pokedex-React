@@ -13,7 +13,7 @@ function App() {
   const fetchPokemon = useCallback(async (tipoBusqueda, nombre) => {
     if(tipoBusqueda === 'random'){
       const randomNumber = Math.floor(Math.random() * (1000)+1);
-      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${randomNumber}/`);
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomNumber}/`);
       return res.data;
     }else{
       try{
@@ -21,7 +21,7 @@ function App() {
           alert('Tiene que escribir algo, volver a intentar');
           return pokemon;
         }
-        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${nombre}/`);
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${nombre}/`);
         console.log(res.data)
         return res.data
       }catch{
